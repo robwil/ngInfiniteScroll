@@ -35,10 +35,11 @@ mod.directive 'infiniteScroll', ['$rootScope', '$window', '$timeout', ($rootScop
     # with a boolean that is set to true when the function is
     # called in order to throttle the function call.
     handler = ->
-      windowBottom = $window.height() + $window.scrollTop()
+      windowHeight = (if window.innerHeight isnt `undefined` then window.innerHeight else $window.height())
+      windowBottom = windowHeight + $window.scrollTop()
       elementBottom = elem.offset().top + elem.height()
       remaining = elementBottom - windowBottom
-      shouldScroll = remaining <= $window.height() * scrollDistance
+      shouldScroll = remaining <= windowHeight * scrollDistance + 1
 
       if shouldScroll && scrollEnabled
         if $rootScope.$$phase
